@@ -121,10 +121,14 @@ func updateBook(w http.ResponseWriter, r *http.Request) {
 		params := mux.Vars(r)
 
 		newBookName := r.FormValue("BookName")
+		newBookCategory := r.FormValue("BookCategory")
+		newBookYear := r.FormValue("BookYear")
+		newBookAuthor := r.FormValue("BookAuthor")
+		newBookPublisher := r.FormValue("BookPublisher")
 
-		stmt, err := db.Prepare("UPDATE books set BookName = ? WHERE BookID = ?")
+		stmt, err := db.Prepare("UPDATE books set BookName = ?, BookCategory = ?, BookYear = ?, BookAuthor = ?, BookPublisher = ? WHERE BookID = ?")
 
-		_, err = stmt.Exec(newBookName, params["id"])
+		_, err = stmt.Exec(newBookName, newBookCategory, newBookYear, newBookAuthor, newBookPublisher, params["id"])
 
 		if err != nil {
 			fmt.Fprintf(w, "Data Not Found or Request Error")
